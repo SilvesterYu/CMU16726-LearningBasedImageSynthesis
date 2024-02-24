@@ -218,6 +218,8 @@ def mixed_blend(fg, mask, bg):
                         A[num_eq, nb] = -1
                 else:
                     b[num_eq] += tj
+            else:
+                b[num_eq] += bg[y][x][ci]
 
             # bottom
             if y + 1 <= h - 1:
@@ -237,6 +239,8 @@ def mixed_blend(fg, mask, bg):
                         A[num_eq, nb] = -1
                 else:
                     b[num_eq] += tj
+            else:
+                b[num_eq] += bg[y][x][ci]
 
             # left
             if x - 1 >= 0:
@@ -256,6 +260,8 @@ def mixed_blend(fg, mask, bg):
                         A[num_eq, nb] = -1
                 else:
                     b[num_eq] += tj
+            else:
+                b[num_eq] += bg[y][x][ci]
 
             # right
             if x + 1 <= w - 1: 
@@ -275,6 +281,8 @@ def mixed_blend(fg, mask, bg):
                         A[num_eq, nb] = -1
                 else:
                     b[num_eq] += tj
+            else:
+                b[num_eq] += bg[y][x][ci]
                 
         lsq = scipy.sparse.linalg.lsqr(A.tocsr(), b)
         lsq = lsq[0] * 255
@@ -291,7 +299,16 @@ def color2gray(rgb_image):
 # -- Extra credit
 def mixed_grad_color2gray(rgb_image):
     """EC: Convert an RGB image to gray image using mixed gradients."""
-    return np.zeros_like(rgb_image)
+    img = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2HSV)
+    fg = img[:, :, 1].reshape((img.shape[0], img.shape[1], 1)) / 255.
+    bg = img[:, :, 2].reshape((img.shape[0], img.shape[1], 1)) / 255.
+    mask = np.ones_like(img[:, :, 0]).reshape((img.shape[0], img.shape[1], 1))
+    mask[0, :] = np.zeros((1, mask.shape[1])).T
+    mask[-1, :] = np.zeros((1, mask.shape[1])).T
+    mask[:, 0] = np.zeros((mask.shape[0], 1))
+    mask[:, -1] = np.zeros((mask.shape[0], 1))
+    res = mixed_blend(fg, mask, bg)
+    return res
 
 
 if __name__ == '__main__':

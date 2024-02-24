@@ -101,10 +101,7 @@ def poisson_blend(fg, mask, bg):
     # because we are using the same mask for all 3 channels
     # A is the same,just need to solve Av = b for 3 different b's
     A = scipy.sparse.lil_matrix((num_vars, num_vars))
-    # res = np.zeros((h, w, 3))
-    res = np.empty((h, w, 3), dtype=int)
-
-    print(A.shape)
+    res = np.zeros((h, w, 3), dtype=int)
 
     ymask, xmask, _ = np.where(mask == 1)
     print("array of y and x indices in the mask", ymask, xmask)
@@ -174,17 +171,124 @@ def poisson_blend(fg, mask, bg):
         lsq = lsq[0] * 255
         res[:, :, ci] = var2image(lsq, h, w)
     return (res / 255) * mask + bg * (1 - mask)
-    
+    # return fg * mask + bg * (1 - mask)
+
+# -- Extra credit
 def mixed_blend(fg, mask, bg):
     """EC: Mix gradient of source and target"""
-    return fg * mask + bg * (1 - mask)
 
+    im2var = image2var(fg)
+    h, w, c = fg.shape[0], fg.shape[1], fg.shape[2]
+    num_vars = h * w # total num of pixels, each treated as a variable
 
+    A = scipy.sparse.lil_matrix((num_vars, num_vars))
+    res = np.zeros((h, w, 3), dtype=int)
+
+    ymask, xmask, _ = np.where(mask == 1)
+    print("array of y and x indices in the mask", ymask, xmask)
+
+    # solve Ax = b_ci for each channel
+    for ci in range(c):
+        print("-"*100)
+        b = np.zeros((num_vars, 1))
+        for i in range(len(ymask)):   
+            y, x = ymask[i], xmask[i]
+            num_eq = (y - 1) * w + x
+            center = im2var[y][x]
+
+            ### fill matrix A and vector b
+            # when we take the derivative, the center is added 4 times
+            A[num_eq, center] = 4
+
+            # top
+            if y - 1 >= 0:
+                yn, xn = y - 1, x
+                si, sj = fg[y][x][ci], fg[yn][xn][ci]
+                ti, tj = bg[y][x][ci], bg[yn][xn][ci]
+                ds, dt = si - sj, ti - tj
+                if abs(ds) > abs(dt):
+                    dij = ds
+                else:
+                    dij = dt
+                b[num_eq] += dij
+                
+                if mask[yn][xn]:
+                    nb = im2var[yn][xn]
+                    if ci == 0:
+                        A[num_eq, nb] = -1
+                else:
+                    b[num_eq] += tj
+
+            # bottom
+            if y + 1 <= h - 1:
+                yn, xn = y + 1, x
+                si, sj = fg[y][x][ci], fg[yn][xn][ci]
+                ti, tj = bg[y][x][ci], bg[yn][xn][ci]
+                ds, dt = si - sj, ti - tj
+                if abs(ds) > abs(dt):
+                    dij = ds
+                else:
+                    dij = dt
+                b[num_eq] += dij
+                
+                if mask[yn][xn]:
+                    nb = im2var[yn][xn]
+                    if ci == 0:
+                        A[num_eq, nb] = -1
+                else:
+                    b[num_eq] += tj
+
+            # left
+            if x - 1 >= 0:
+                yn, xn = y, x - 1
+                si, sj = fg[y][x][ci], fg[yn][xn][ci]
+                ti, tj = bg[y][x][ci], bg[yn][xn][ci]
+                ds, dt = si - sj, ti - tj
+                if abs(ds) > abs(dt):
+                    dij = ds
+                else:
+                    dij = dt
+                b[num_eq] += dij
+                
+                if mask[yn][xn]:
+                    nb = im2var[yn][xn]
+                    if ci == 0:
+                        A[num_eq, nb] = -1
+                else:
+                    b[num_eq] += tj
+
+            # right
+            if x + 1 <= w - 1: 
+                yn, xn = y, x + 1
+                si, sj = fg[y][x][ci], fg[yn][xn][ci]
+                ti, tj = bg[y][x][ci], bg[yn][xn][ci]
+                ds, dt = si - sj, ti - tj
+                if abs(ds) > abs(dt):
+                    dij = ds
+                else:
+                    dij = dt
+                b[num_eq] += dij
+                
+                if mask[yn][xn]:
+                    nb = im2var[yn][xn]
+                    if ci == 0:
+                        A[num_eq, nb] = -1
+                else:
+                    b[num_eq] += tj
+                
+        lsq = scipy.sparse.linalg.lsqr(A.tocsr(), b)
+        lsq = lsq[0] * 255
+        res[:, :, ci] = var2image(lsq, h, w)
+    return (res / 255) * mask + bg * (1 - mask)
+
+    # return fg * mask + bg * (1 - mask)
+
+# -- Extra credit
 def color2gray(rgb_image):
     """Naive conversion from an RGB image to a gray image."""
     return cv2.cvtColor(rgb_image, cv2.COLOR_RGB2GRAY)
 
-
+# -- Extra credit
 def mixed_grad_color2gray(rgb_image):
     """EC: Convert an RGB image to gray image using mixed gradients."""
     return np.zeros_like(rgb_image)
@@ -236,6 +340,7 @@ if __name__ == '__main__':
         plt.show()
 
     if args.question == "mixed":
+        print("Hereeee")
         parser.add_argument("-s", "--source", required=True)
         parser.add_argument("-t", "--target", required=True)
         parser.add_argument("-m", "--mask", required=True)

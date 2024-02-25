@@ -11,422 +11,69 @@
         <h4>Lifan Yu (lifany)</h4>
 
 
-        <h3>1. Project Overview</h3>
-        <h4>1.1 Background</h4>
+        <h3>0. Project Overview</h3>
+        <h4>0.1 Background</h4>
         <p>This project focuses on “Poisson blending”, gradient-domain processing, a simple technique to blend a part of an image, be it an object, an animal or a person, into a target background image.</p>
         <p>In this project, the goal is to seamlessly blend the source image onto the target image, different from a simple copy and paste which creates noticeable edges.</p>
         
-        <h4>1.2 Methods</h4>
+        <h4>0.2 Methods</h4>
         <p>- We focus on gradients rather than the absolute pixel values because we want the image intensity between the source and target images to transition smoothly.</p>
         <p>- We preserve the gradients of the area of the source image that we wish to copy paste, and based on the target image's values on the edges, we the and solve for the each pixel in this area.</p>
-        
-        
-        <h3>2. Results</h3>
-        <h4>2.1 Single-scale implementation with successful results on low-res images</h4>
-        <section>
-            <div class="row">
-
-                <div class="column">
-                    <p> Cathedral </p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/cathedral.jpg_single_scale.jpg" style="width:100%">
-                </div>
-
-                <div class="column">
-                    <p>Lady</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/lady_single_scale.jpg" alt="Forest" style="width:100%">
-                </div>
-
-  
-            </div> 
-        </section>
-
-        <h4>2.2 Multiscale pyramid version that works on the large images</h4>
-        <p> Multiscale pyramid method works well and fast on almost all images.</p>
-        <p> However, the Emir image isn't properly aligned.</p>
-        <p> This is due to the Emir image's green channel having a different brightness level than others channels. </p>
-        <p> To solve this, I instead aligned the two other channels to green and solved the problem. The new aligned Emir image can be seen at the end of this subsection</p>
-        <section>
-            <div class="row">
-
-                <div class="column">
-                    <p> Self-portrait </p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portrait.jpg" style="width:100%">
-                </div>
-
-                <div class="column">
-                    <p>Lady</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/lady.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column">
-                    <p>Emir</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir_misalign.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column">
-                    <p>Three generations</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/three_generations.jpg" alt="Forest" style="width:100%">
-                </div>
-  
-            </div> 
-            <div class="row">
-                <div class="column">
-                    <p>Icon</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/icon.jpg" alt="Forest" style="width:100%">
-                </div>
+        <p> - The equation to solve for is as follows. We treat each pixel in the image as a variable v that minnimizes the expression on the right side</p>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/formula.png", style="width:78%">
     
-                <div class="column">
-                    <p>Turkmen</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen.jpg" alt="Forest" style="width:100%">
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <p>Village</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/village.jpg" alt="Forest" style="width:100%">
-                </div>
-                <div class="column">
-                    <p>Train</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/train.jpg" alt="Forest" style="width:100%">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <p> Cathedral </p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/cathedral.jpg.jpg" style="width:100%">
-                </div>
-                <div class="column">
-                    <p> Harvesters </p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/harvesters.jpg" alt="Forest" style="width:100%">
-                </div>
-            </div>
-
-            
-
-            <div class="row">
-                <div class="column">
-                    <p>Emir misalignment</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir_misalign.jpg" alt="Forest" style="width:100%">
-                </div>
-                <div class="column">
-                    <p>Aligned Emir image</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir.jpg" alt="Forest" style="width:100%">
-                </div>
-            </div>
-
-            <h4>2.2.2 Comparison between multiscale pyramid version single scale</h4>
-            <div class="row">
-                <div class="column">
-                    <p>Self-portrait with single-scale alignment</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portra_single_scale.jpg" alt="Forest" style="width:100%">
-                </div>
-                <div class="column">
-                    <p>Self-portrait with multiscale pyramid method</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portrait.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column">
-                    <p>Turkmen with single-scale alignment</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen_single_scale.jpg" alt="Forest" style="width:100%">
-                </div>
-                <div class="column">
-                    <p>Turkmen with multiscale pyramid method</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen.jpg" alt="Forest" style="width:100%">
-                </div>
-            </div>
-
-            <h4>2.3 My own choice of images downloaded from the Prokudin-Gorskii collection</h4>
-            <p><a href="https://memory.loc.gov/master/pnp/prok/">Data source</a></p>
-            <div class="row">
-            <div class="column">
-                <p>Image 00453a</p>
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/00453a.jpg" alt="Forest" style="width:100%">
-            </div>
-            <div class="column">
-                <p>Image 00472a</p>
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/00472a.jpg" alt="Forest" style="width:100%">
-            </div>
-        </div>
+        <p> - Taking the derivative of the right hand side expression and letting that be zero, we get an expression with v_i and v_j on the left side, and move the constant intensity values to the right side. We can form a linear system A v  = b to solve for the v's. </p>
+        <p> - we form a matrix A containing all the v_i v_j's coefficients, and a column vector v from v_0 to v_numpixels.  We observe that for each vi pixel we are solving for, they are calculated 4 times for each of their neighbors v_j: top, bottom, left and right. Their coefficient is then 4. So we put a 4 in A's row, corresponding to the v_i's location. Similarly, for each neighbor v_j, we check whether or not they are in the mask, if they are, we put a -1 in A, else we add background intensity to the corresponding b element.</p>
         
-        <div class="row">
-            <div class="column">
-                <p>Image 00434a</p>
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/00434a.jpg" alt="Forest" style="width:100%">
-            </div>
-            <div class="column">
-                <p>Image 00447u</p>
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/00447u.jpg" alt="Forest" style="width:100%">
-            </div>
-        </div>
+        <h3>1. Blending</h3>
+        <h4>1.1 Toy Problem</h4>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/expressions.png", style="width:60%">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/solve.png", style="width:60%">
 
-        <div class="row">
-            <div class="column">
-                <p>Image 00729u</p>
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/00729u.jpg" alt="Forest" style="width:100%">
-            </div>
-            <div class="column">
-                <p>Image 00777u</p>
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/00777u.jpg" alt="Forest" style="width:100%">
-            </div>
-        </div>
-
-        </section>
-
-        <h3>3. Bells & Whistles (Extra Credit)</h3>
-
-        <h4>3.1 Pytorch reimplementation</h4>
-        <p>A screenshot of pytorch tensor implementation is as follows:</p>
-        <div class="row">
-            <div class="column3">
-              <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/torch.png" alt="Forest" style="width:100%">
-            </div>
-        </div>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/toy.png", style="width:60%">
+    
 
 
-        <h4>3.2 Automatic contrasting</h4>
-        <p>I rescaled the brightness level to minimum = 0 and maximum = 1, then I scaled the brightness by a constant, scaling up the ones above the average value, and scaling down the ones below, depending on the brightness level itself and color channels. The values are finally clipped between [0, 1]</p>
-            <section>
-                <div class="row">
-                    <div class="column2">
-                        <p>Self-portrait</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portrait.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Self-portrait with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portra_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Turkmen</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Turkmen with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                </div>
+        <h4>1.2 Poisson Blending </h4>
+        <p>- How it works is that we preserve the gradients of the area of the source image that we wish to copy paste, and based on the target image's values on the edges, we the and solve for the each pixel in this area.</p>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/poisson.png", style="width:60%">
+ 
+        <p>- We are calculating 4 times v_i, so we are putting 4 into A matrix instead of 1 in the toy example. Other steps are teh same. </p>
+        <p> - This time the matrix is much bigger, so numpy's least squares solver couldn't handle. We need to first create A as a sparse scipy matrix and use scipy's sparse lineal algebra solver to solve for the least squares solution.</p>
 
-                <div class="row">
-                    <div class="column2">
-                        <p>Lady</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/lady.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Lady with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/lady_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Emir</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Emir with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="column2">
-                        <p>Three generations</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/three_generations.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Three generations with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/three_generations_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Harvesters</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/harvesters.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Harvesters with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/harvesters_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="column2">
-                        <p>Cathedral</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/cathedral.jpg.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Cathedral with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/cathedral.jpg_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Icon</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/icon.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Icon with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/icon_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="column2">
-                        <p>Village</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/village.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Village with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/village_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Train</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/train.jpg" alt="Forest" style="width:100%">
-                    </div>
-                    <div class="column2">
-                        <p>Train with contrast</p>
-                      <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/train_contrast_torch.jpg" alt="Forest" style="width:100%">
-                    </div>
-                </div>
-
-
-            </section>
-
-
-        <h4>3.3 Automatic cropping </h4>
-        <p> - First I removed the originally existing black edges by detecting the edges with a threshold. </p>
-        <p> - Then I recorded the shifts in the two channels being aligned. I crop out these misalgned edge areas by cropping using the corresponding values. </p>
         <section>
-
             <div class="row">
+
+                <div class="column2">
+                    <p> Source </p>
+                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/data/source_01.jpg" style="width:100%">
+                </div>
+
+                <div class="column2">
+                    <p> Target </p>
+                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/data/target_01.jpg" style="width:100%">
+                </div>
+
+                <div class="column">
+                  <p> Poisson blend result  </p>
+                <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/poisson_blend.png"  style="width:120%">
+              </div>
                 
-                <div class="column2">
-                    <p>Self-portrait with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portra_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-                <div class="column2">
-                    <p>Self-portrait cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/self_portra_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                
-                <div class="column2">
-                    <p>Turkmen with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Turkmen cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/turkmen_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-            </div>
-
-            <div class="row">
-                
-                <div class="column2">
-                    <p>Lady with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/lady_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Lady cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/lady_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                
-                <div class="column2">
-                    <p>Emir with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Emir cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/emir_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-
-            </div>
-
-            <div class="row">
-                
-                <div class="column2">
-                    <p>Three generations with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/three_generations_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Three generations cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/three_generations_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                
-                <div class="column2">
-                    <p>Harvesters with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/harvesters_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Harvesters crop</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/harvesters_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-            </div>
-
-            <div class="row">
-                
-                <div class="column2">
-                    <p>Cathedral with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/cathedral.jpg_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Cathedral cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/cathedral.jpg_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-
-                <div class="column2">
-                    <p>Icon with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/icon_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Icon cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/icon_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-            </div>
-
-            <div class="row">
-                
-                <div class="column2">
-                    <p>Village with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/village_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Village cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/village_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-
-                
-                <div class="column2">
-                    <p>Train with contrast</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/train_contrast_torch.jpg" alt="Forest" style="width:100%">
-                </div>
-
-                <div class="column2">
-                    <p>Train cropped</p>
-                  <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/16726_s23_hw1-main/results/train_contrast_crop.jpg" alt="Forest" style="width:100%">
-                </div>
-
-            </div>
-                
-
-
-
         </section>
+        
 
-        
-        
-        
-        
+        <h3>2. Bells & Whistles (Extra Points)</h3>
+        <h4>2.1 Mixed Gradients</h4>
+        <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/mixed_gradient.png"  style="width:70%">
+        <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/mixed_blend.png"  style="width:70%">
+ 
+        <h4>2.2 rgb2gray</h4>
+        <p> Preserve graidients as well as grayscale intensity</p>
+        <img src="https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj2/results/mixed_blend_rgb2gray.png"  style="width:70%">
+
+
+
+       
         <link rel="stylesheet" href="css/style.css">
     </body>
 </html>

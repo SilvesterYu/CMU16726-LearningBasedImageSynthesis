@@ -221,9 +221,9 @@ def save_masks(im1name, im2name):
     tform = SimilarityTransform(translation=offset)
     warped = warp(source_im, tform, output_shape=target_im.shape)
 
-    skio.imsave(name1 + "_mask.png", source_mask)
-    skio.imsave(name2 + "_mask.png",target_mask)
-    skio.imsave(name1 + "_newsource.png", warped)
+    skio.imsave(name1 + "_mask_1.png", source_mask)
+    skio.imsave(name2 + "_mask_1.png",target_mask)
+    skio.imsave(name1 + "_newsource_1.png", warped)
     print(name1 + "_mask.png")
     return source_mask, target_mask, source_im
 

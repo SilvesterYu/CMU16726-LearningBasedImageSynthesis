@@ -7,21 +7,20 @@
     </head>
     <body class="#grad">
         <h1>CMU 16726 Learning Based Image Synthesis</h1>
-        <h2>Assignment #1 - Colorizing the Prokudin-Gorskii Photo Collection</h2>
+        <h2> Assignment #2 - Gradient Domain Fusion </h2>
         <h4>Lifan Yu (lifany)</h4>
 
 
         <h3>1. Project Overview</h3>
         <h4>1.1 Background</h4>
-        <p>Sergei Mikhailovich Prokudin-Gorskii (1863-1944) envisioned colored photography and recorded three exposures of every scene onto a glass plate using a red, a green and a blue filter.</p>
-        <p>In this project, the glass plate images are processed and used to produce colored images.</p>
+        <p>This project focuses on “Poisson blending”, gradient-domain processing, a simple technique to blend a part of an image, be it an object, an animal or a person, into a target background image.</p>
+        <p>In this project, the goal is to seamlessly blend the source image onto the target image, different from a simple copy and paste which creates noticeable edges.</p>
         
         <h4>1.2 Methods</h4>
-        <p>- I chose SSD as the alignment metric.</p>
-        <p>- For alignment, first aligning red to green, then blue to green, and then stacking the three channels (aligned red, aligned blue, green) together. Most of the images have the same brightness across all color channels, aligning the other 2 channels with the third will work, except for the emir image, in which the green channel has a different brightness level from the other two.</p>
-        <p>- First I tried the single-scale alignment, it performs better on low-res images, but is extremely slow and performs poorly on high-res images, as we are only shifting once and computing brightness SSDs across all the image pixels, which has too much details and can fail to produce an approximately correct shifting</p>
-        <p>- Then I used multi-scale pyramid method, first down-scaling the high-res images to a tiny image, compute SSD and shift to align, then up-scale the image by a constant, again compute SSD and shift the color channels to align with each other. This is repeated until the image is up-scaled back to the original size. We shift the image several times, and with each up-scaling, the new shifting is a finer-tuned shift. This method is much quicker than the single-scale one, and performs quite well on almost all images</p>
-
+        <p>- We focus on gradients rather than the absolute pixel values because we want the image intensity between the source and target images to transition smoothly.</p>
+        <p>- We preserve the gradients of the area of the source image that we wish to copy paste, and based on the target image's values on the edges, we the and solve for the each pixel in this area.</p>
+        
+        
         <h3>2. Results</h3>
         <h4>2.1 Single-scale implementation with successful results on low-res images</h4>
         <section>

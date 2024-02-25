@@ -300,14 +300,10 @@ def color2gray(rgb_image):
 def mixed_grad_color2gray(rgb_image):
     """EC: Convert an RGB image to gray image using mixed gradients."""
     img = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2HSV)
-    fg = img[:, :, 1].reshape((img.shape[0], img.shape[1], 1)) / 255.
-    bg = img[:, :, 2].reshape((img.shape[0], img.shape[1], 1)) / 255.
+    fg = img[:, :, 1].reshape((img.shape[0], img.shape[1], 1)) / 255
+    bg = img[:, :, 2].reshape((img.shape[0], img.shape[1], 1)) / 255
     mask = np.ones_like(img[:, :, 0]).reshape((img.shape[0], img.shape[1], 1))
-    mask[0, :] = np.zeros((1, mask.shape[1])).T
-    mask[-1, :] = np.zeros((1, mask.shape[1])).T
-    mask[:, 0] = np.zeros((mask.shape[0], 1))
-    mask[:, -1] = np.zeros((mask.shape[0], 1))
-    res = mixed_blend(fg, mask, bg)
+    res = mixed_blend(fg, mask, bg)[:, :, 0]*255
     return res
 
 
@@ -357,7 +353,6 @@ if __name__ == '__main__':
         plt.show()
 
     if args.question == "mixed":
-        print("Hereeee")
         parser.add_argument("-s", "--source", required=True)
         parser.add_argument("-t", "--target", required=True)
         parser.add_argument("-m", "--mask", required=True)
@@ -395,7 +390,9 @@ if __name__ == '__main__':
         plt.imshow(gray_image, cmap='gray')
         plt.title('rgb2gray')
         plt.subplot(122)
-        plt.imshow(mixed_grad_img, cmap='gray')
+        plt.imshow(mixed_grad_img, cmap='gray', vmin=0, vmax=255)
+        print(gray_image)
+        print(mixed_grad_img)
         plt.title('mixed gradient')
         plt.show()
 

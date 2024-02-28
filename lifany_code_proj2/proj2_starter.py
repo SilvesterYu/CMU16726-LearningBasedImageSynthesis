@@ -87,6 +87,7 @@ def poisson_blend(fg, mask, bg):
     :param bg: (H, W, C) target image / background
     :return: (H, W, C)
     """
+    bg = bg[:, :, :3]
     im2var = image2var(fg)
     print("variables:", im2var)
 
@@ -170,6 +171,7 @@ def poisson_blend(fg, mask, bg):
         lsq = scipy.sparse.linalg.lsqr(A.tocsr(), b)
         lsq = lsq[0] * 255
         res[:, :, ci] = var2image(lsq, h, w)
+    print(res.shape, mask.shape, bg.shape)
     return (res / 255) * mask + bg * (1 - mask)
     # return fg * mask + bg * (1 - mask)
 
@@ -345,6 +347,7 @@ if __name__ == '__main__':
         blend_img = poisson_blend(fg, mask, bg)
 
         plt.subplot(121)
+        bg = bg[:, :, :3]
         plt.imshow(fg * mask + bg * (1 - mask))
         plt.title('Naive Blend')
         plt.subplot(122)

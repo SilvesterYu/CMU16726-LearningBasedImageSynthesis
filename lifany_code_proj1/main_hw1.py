@@ -421,7 +421,7 @@ def main2():
 if __name__ == "__main__":
 
     # Extra credit: Automatic cropping
-    CROP = False
+    CROP = True
     crop_thresh = 0.96
     crop_proportion = 0.85
 
@@ -432,8 +432,8 @@ if __name__ == "__main__":
     # main0()
 
     # The main loop using numpy, pyramid, crop and adding contrast
-    # main1()
+    main1()
 
     # Extra credit: The main loop using Pytorch, pyramid
-    main2()
+    # main2()
 

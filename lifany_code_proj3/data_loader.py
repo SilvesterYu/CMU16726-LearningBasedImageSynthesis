@@ -9,6 +9,8 @@ import PIL.Image as Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 
+import random
+
 
 class CustomDataSet(Dataset):
     """Load images under folders"""
@@ -42,12 +44,12 @@ def get_data_loader(data_path, opts):
         train_transform = basic_transform
     elif opts.data_preprocess == 'deluxe':
         # todo: add your code here: below are some ideas for your reference
-        # load_size = int(1.1 * opts.image_size)
-        # osize = [load_size, load_size]
-        # transforms.Resize(osize, Image.BICUBIC)
-        # transforms.RandomCrop(opts.image_size)
-        # transforms.RandomHorizontalFlip()
-        pass
+        load_size = int(1.1 * opts.image_size)
+        osize = [load_size, load_size]
+        transforms.Resize(osize, Image.BICUBIC)
+        transforms.RandomCrop(opts.image_size)
+        transforms.RandomHorizontalFlip()
+        
 
     dataset = CustomDataSet(
         os.path.join('data/', data_path), opts.ext, train_transform

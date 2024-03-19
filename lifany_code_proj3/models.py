@@ -166,10 +166,10 @@ class DCDiscriminator(nn.Module):
     def __init__(self, conv_dim=64, norm='instance'):
         super().__init__()
         self.conv1 = conv(3, 32, 4, 2, 1, norm, False, 'relu')
-        self.conv2 = 
-        self.conv3 = 
-        self.conv4 = 
-        self.conv5 = 
+        self.conv2 = conv(32, conv_dim, 4, 2, 1, norm, False, 'relu')
+        self.conv3 = conv(conv_dim, conv_dim * 2, 4, 2, 1, norm, False, 'relu')
+        self.conv4 = conv(conv_dim * 2, conv_dim * 4, 4, 2, 1, norm, False, 'relu')
+        self.conv5 = conv(conv_dim * 4, 1, 4, 2, 1, norm, False, 'relu')
 
     def forward(self, x):
         """Forward pass, x is (B, C, H, W)."""

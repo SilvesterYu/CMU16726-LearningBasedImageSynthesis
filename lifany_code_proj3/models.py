@@ -80,11 +80,11 @@ class DCGenerator(nn.Module):
         ##   FILL THIS IN: CREATE ARCHITECTURE   ##
         ###########################################
 
-        self.up_conv1 = 
-        self.up_conv2 = 
-        self.up_conv3 = 
-        self.up_conv4 = 
-        self.up_conv5 = 
+        self.up_conv1 = conv(noise_size, conv_dim * 8, 4, 1, 3, "instance", True, 'relu')
+        self.up_conv2 = up_conv(conv_dim * 8, conv_dim * 4, 3, 1, 1, activ = "relu")
+        self.up_conv3 = up_conv(conv_dim * 4, conv_dim*2, 3, 1, 1, activ = "relu")
+        self.up_conv4 = up_conv(conv_dim * 2, conv_dim, 3, 1, 1, activ = "relu")
+        self.up_conv5 = up_conv(conv_dim, 3, 3, 1, 1, norm = None, activ = "tanh")
 
     def forward(self, z):
         """
@@ -101,8 +101,19 @@ class DCGenerator(nn.Module):
         ###########################################
         ##   FILL THIS IN: FORWARD PASS   ##
         ###########################################
-
-        pass
+        x = self.up_conv1(z)
+        # print("G x shape", z.shape)
+        # print("G x shape", x.shape)
+        x = self.up_conv2(x)
+        # print("G x shape", x.shape)
+        x = self.up_conv3(x)
+        # print("G x shape", x.shape)
+        x = self.up_conv4(x)
+        # print("G x shape", x.shape)
+        x = self.up_conv5(x)
+        # print("G x shape", x.shape)
+        return x.squeeze()
+        
 
 
 class ResnetBlock(nn.Module):
@@ -131,15 +142,15 @@ class CycleGenerator(nn.Module):
         ###########################################
 
         # 1. Define the encoder part of the generator
-        self.conv1 = 
-        self.conv2 = 
+        # self.conv1 = 
+        # self.conv2 = 
 
-        # 2. Define the transformation part of the generator
-        self.resnet_block = 
+        # # 2. Define the transformation part of the generator
+        # self.resnet_block = 
 
-        # 3. Define the decoder part of the generator
-        self.up_conv1 = 
-        self.up_conv2 = 
+        # # 3. Define the decoder part of the generator
+        # self.up_conv1 = 
+        # self.up_conv2 = 
 
     def forward(self, x):
         """
@@ -163,13 +174,14 @@ class CycleGenerator(nn.Module):
 class DCDiscriminator(nn.Module):
     """Architecture of the discriminator network."""
 
-    def __init__(self, conv_dim=64, norm='instance'):
+    def __init__(self, conv_dim=64, norm='batch'):
         super().__init__()
-        self.conv1 = conv(3, 32, 4, 2, 1, norm, False, 'relu')
-        self.conv2 = conv(32, conv_dim, 4, 2, 1, norm, False, 'relu')
-        self.conv3 = conv(conv_dim, conv_dim * 2, 4, 2, 1, norm, False, 'relu')
-        self.conv4 = conv(conv_dim * 2, conv_dim * 4, 4, 2, 1, norm, False, 'relu')
-        self.conv5 = conv(conv_dim * 4, 1, 4, 2, 1, norm, False, 'relu')
+        print("conv dim", conv_dim)
+        self.conv1 = conv(3, conv_dim, 4, 2, 1, norm, False, 'relu')
+        self.conv2 = conv(conv_dim, conv_dim*2, 4, 2, 1, norm, False, 'relu')
+        self.conv3 = conv(conv_dim*2, conv_dim * 4, 4, 2, 1, norm, False, 'relu')
+        self.conv4 = conv(conv_dim * 4, conv_dim * 8, 4, 2, 1, norm, False, 'relu')
+        self.conv5 = conv(conv_dim * 8, 1, 4, 2, 0, norm = None, activ=False)
 
     def forward(self, x):
         """Forward pass, x is (B, C, H, W)."""

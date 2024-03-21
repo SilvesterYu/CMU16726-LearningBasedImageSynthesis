@@ -256,7 +256,7 @@ def create_parser():
     parser.add_argument('--noise_size', type=int, default=100)
 
     # Training hyper-parameters
-    parser.add_argument('--num_epochs', type=int, default=500)
+    parser.add_argument('--num_epochs', type=int, default=1000)
     parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument('--lr', type=float, default=0.0002)

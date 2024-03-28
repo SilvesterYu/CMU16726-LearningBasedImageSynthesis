@@ -114,7 +114,7 @@ def main(style_img_path, content_img_path):
     print(content_size)
     print(style_size)
     style_img = T.Resize(size=content_size[-2:])(style_img)
-
+    # --
 
     assert style_img.size() == content_img.size(), \
         "we need to import style and content images of the same size"

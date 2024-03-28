@@ -111,8 +111,8 @@ def main(style_img_path, content_img_path):
     # -- resize style image according to content image size
     content_size = content_img.shape
     style_size = style_img.shape
-    print(content_size)
-    print(style_size)
+    print("content size ", content_size)
+    print("style size ", style_size)
     style_img = T.Resize(size=content_size[-2:])(style_img)
     # --
 
@@ -129,7 +129,7 @@ def main(style_img_path, content_img_path):
     # we load a pretrained VGG19 model from the PyTorch models library
     # but only the feature extraction part (conv layers)
     # and configure it for evaluation
-    # cnn = models.vgg19(pretrained=True).features.to(device).eval()
+    cnn = models.vgg19(pretrained=True).features.to(device).eval()
 
     # image reconstruction
     print("Performing Image Reconstruction from white noise initialization")

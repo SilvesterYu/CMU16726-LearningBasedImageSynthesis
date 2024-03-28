@@ -6,6 +6,7 @@ import copy
 import sys
 from utils import load_image, Normalization, device, imshow, get_image_optimizer
 from style_and_content import ContentLoss, StyleLoss
+import torchvision.transforms as T
 
 
 """A ``Sequential`` module contains an ordered list of child modules. For
@@ -42,10 +43,11 @@ def get_model_and_losses(cnn, style_img, content_img,
     # trim off the layers after the last content and style losses
     # as they are vestigial
 
-    # normalization = TODO
-    # model = nn.Sequential(normalization)
+    normalization = Normalization.to(device)
+    model = nn.Sequential(normalization)
 
-    raise NotImplementedError()
+    for l in cnn.children:
+        print(type(l))
 
     return model, style_losses, content_losses
 
@@ -106,6 +108,14 @@ def main(style_img_path, content_img_path):
     # interative MPL
     plt.ion()
 
+    # -- resize style image according to content image size
+    content_size = content_img.shape
+    style_size = style_img.shape
+    print(content_size)
+    print(style_size)
+    style_img = T.Resize(size=content_size[-2:])(style_img)
+
+
     assert style_img.size() == content_img.size(), \
         "we need to import style and content images of the same size"
 
@@ -126,6 +136,7 @@ def main(style_img_path, content_img_path):
     # input_img = random noise of the size of content_img on the correct device
     # output = reconstruct the image from the noise
 
+    '''
     plt.figure()
     imshow(output, title='Reconstructed Image')
 
@@ -153,8 +164,10 @@ def main(style_img_path, content_img_path):
 
     plt.ioff()
     plt.show()
+    '''
 
 
 if __name__ == '__main__':
     args = sys.argv[1:3]
     main(*args)
+    # main("images/style/frida_kahlo.jpeg", "images/content/fallingwater.png")

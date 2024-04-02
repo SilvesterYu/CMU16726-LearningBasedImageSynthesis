@@ -14,465 +14,654 @@
 
 
         <h3>Part 1: Content Reconstruction [30 points]</h3>
+        <p>python3 run.py ./images/style/frida_kahlo.jpeg ./images/content/fallingwater.png</p>
+        <p> Original image and optimizing content loss on the 4 different layers are shown below.  My favorite is optimizing on the 1st or 3rd layer, as the reconstructed image looks more like an actual photo instead of a painting, and the colors look more realistic and more similar to the original image. </p>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/images/content/fallingwater.png", style="width:30%; margin-left:35%">
+ 
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <h4>0. Transmittance Calculation</h4>
-
-        
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/transmittance_calculation/figure1.png", style="width:70%; margin-left:15%">
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/transmittance.png", style="width:70%; margin-left:15%">
-  
-        <h4> 1. Differentiable Volume Rendering </h4>
-        <h4> 1.3 Ray sampling </h4>
-
-                              <section>
-                <div class="row">
-      
-                    <div class="column2", style="margin-left: 25%">
-                        <p> xygrid </p>
-                        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/images/1.3_xygrid.png", style="width:100%">
-
-                          </div>
-      
-                    <div class="column2">
-                        <p> rays </p>
-                        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/images/1.3_rays.png", style="width:100%">
-                      </div>
-      
-                
-            </section>
-
-        <p></p>
-
-        <h4>1.4 Point sampling</h4>
-
         <section>
           <div class="row">
 
-              <div class="column2", style="margin-left: 37.5%">
-                  <p> sampled </p>
-                  <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/images/sampled.png", style="width:100%">
+              <div class="column", style="margin-left: 10%">
+                  <p> Optimizing content loss at layer 1 </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/fallingwater-l1.png", style="width:100%">
 
-                    </div>
+              </div>
 
-          
+              <div class="column">
+                  <p> Optimizing content loss at layer 3 </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/fallingwater-l3.png", style="width:100%">
+              </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="column", style="margin-left: 10%">
+                <p> Optimizing content loss at layer 6 </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/fallingwater-l6.png", style="width:100%">
+
+            </div>
+
+            <div class="column">
+                <p> Optimizing content loss at layer 9 </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/fallingwater-l9.png", style="width:100%">
+            </div>
+
+        </div>
+
+
       </section>
 
-      <h4>1.5. Volume rendering</h4>
+      <p>The original image of Phipps Botanical Garden and reconstruction results are shown below. Same as the above, my favorite results are the ones optimizing on the 1st and 3rd layers. Optimizing on the 3rd layer produced slightly more natural colors in this case.</p>
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/images/content/phipps.jpeg", style="width:40%; margin-left:30%">
+ 
+        
+        <section>
+          <div class="row">
 
+              <div class="column", style="margin-left: 10%">
+                  <p> Optimizing content loss at layer 1 </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/phipps-l1.png", style="width:100%">
+
+              </div>
+
+              <div class="column">
+                  <p> Optimizing content loss at layer 3 </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/phipps-l3.png", style="width:100%">
+              </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="column", style="margin-left: 10%">
+                <p> COptimizing content loss at layer 6 </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/phipps-l6.png", style="width:100%">
+
+            </div>
+
+            <div class="column">
+                <p> Optimizing content loss at layer 9 </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/phipps-l9.png", style="width:100%">
+            </div>
+
+        </div>
+
+
+      </section>
+
+      <h4> Initializing with 2 different random noise images (optimizing on layer3)</h4>
+      <h4> Random noise 1</h4>
+      <section>
+          <div class="row">
+
+              <div class="column", style="margin-left: 10%">
+                  <p> Original </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/content-fw.png", style="width:100%">
+
+              </div>
+
+              <div class="column">
+                  <p> Random noise 1 (seed 48) </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/randnoise48-fw.png", style="width:100%">
+              </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="column", style="margin-left: 10%">
+                <p> Difference </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diff48-fw.png", style="width:100%">
+
+            </div>
+
+            <div class="column">
+                <p> Difference over the original image </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diffOverOriginal48-fw.png", style="width:100%">
+            </div>
+
+        </div>
+
+
+      </section>
+
+      <h4> Random noise 2</h4>
 
       <section>
         <div class="row">
 
-            <div class="column2", style="margin-left: 25%">
-                <p>  </p>
-                <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/images/1.5_depth_viz.png", style="width:100%">
+            <div class="column", style="margin-left: 10%">
+                <p> Original </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/content-fw.png", style="width:100%">
 
-                  </div>
+            </div>
 
-            <div class="column2">
-                <p>  </p>
-                <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_1_.gif", style="width:100%">
-              </div>
+            <div class="column">
+                <p> Random noise 2 (seed 12) </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/randnoise12-fw.png", style="width:100%">
+            </div>
 
-        
+        </div>
+
+        <div class="row">
+
+          <div class="column", style="margin-left: 10%">
+              <p> Difference </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diff12-fw.png", style="width:100%">
+
+          </div>
+
+          <div class="column">
+              <p> Difference over the original image </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diffOverOriginal12-fw.png", style="width:100%">
+          </div>
+
+      </div>
+
+
     </section>
 
-    <h4>2. Optimizing a basic implicit volume</h4>
-    <h4>2.1. Random ray sampling</h4>
-
-    <p>Box center: (0.2502, 0.2506, -0.0005)</p>
-      
-    <p>Box side lengths: (2.0051, 1.5035, 1.5033)</p>
-
-
-    <section>
+     
+     
+      <h4> Random noise 1</h4>
+      <section>
           <div class="row">
 
-              <div class="column2", style="margin-left: 37.5%">
-                  <p>  </p>
-                  <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_2.gif", style="width:100%">
+              <div class="column", style="margin-left: 10%">
+                  <p> Original </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/content.png", style="width:100%">
 
-                    </div>
+              </div>
 
-          
+              <div class="column">
+                  <p> Random noise 1 (seed 48) </p>
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/randnoise48.png", style="width:100%">
+              </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="column", style="margin-left: 10%">
+                <p> Difference </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diff48.png", style="width:100%">
+
+            </div>
+
+            <div class="column">
+                <p> Difference over the original image </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diffOverOriginal48.png", style="width:100%">
+            </div>
+
+        </div>
+
+
       </section>
-    
 
-    <h4>3. Optimizing a Neural Radiance Field (NeRF)</h4>
-    <p>The result below is from a NeRF MLP that does not handle view dependence yet. It uses ReLU activation to map the first network output to density and Sigmoid activation to map the remaining raw network outputs to color, and HarmonicEmbedding for better quality.</p>
+      <h4> Random noise 2</h4>
+
+      <section>
+        <div class="row">
+
+            <div class="column", style="margin-left: 10%">
+                <p> Original </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/content.png", style="width:100%">
+
+            </div>
+
+            <div class="column">
+                <p> Random noise 2 (seed 12) </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/randnoise12.png", style="width:100%">
+            </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="column", style="margin-left: 10%">
+              <p> Difference </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diff12.png", style="width:100%">
+
+          </div>
+
+          <div class="column">
+              <p> Difference over the original image </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diffOverOriginal12.png", style="width:100%">
+          </div>
+
+      </div>
 
 
+    </section>
+
+      <h3>Part 2: Texture Synthesis [30 points]</h3>
+      <h4>Effect of optimizing content loss at different layers</h4>
+      <p> I am using starry night as the style in this case. My favorite is optimizing style loss on layers 1-10. This way the style and colors are most accurately preserved.</p>
+      <section>
+        <div class="row">
+
+            <div class="column", style="margin-left: 10%">
+                <p> layers 1-5 </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/style1-5.png", style="width:100%">
+
+            </div>
+
+            <div class="column">
+                <p> layers 6-10 </p>
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/style6-10.png", style="width:100%">
+            </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="column", style="margin-left: 10%">
+              <p> layers 11-15 </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/style11-15.png", style="width:100%">
+
+          </div>
+
+          <div class="column">
+              <p> layers 1-10 </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/style1-10.png", style="width:100%">
+          </div>
+
+      </div>
+
+
+    </section>
+
+    <h4> Initializing with 2 different random noise images (optimizing on layers 1-10)</h4>
+    <h4> Random noise 1</h4>
     <section>
       <div class="row">
 
-          <div class="column2", style="margin-left: 37.5%">
-              <p>  </p>
-              <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_3_lowres.gif", style="width:100%">
+          <div class="column", style="margin-left: 10%">
+              <p> Original </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/style.png", style="width:100%">
 
-                </div>
-
-      
-  </section>
-
-  <h4>4. NeRF Extras</h4>
-  <h4>4.1 View Dependence</h4>
-  <p> Tradeoffs: Using view dependence gave more realistic results, as color is predicted on position and ray direction. Ray direction embedding is also used for color prediction, instead of position only. This is can produce much better quality renderings for objects that show drastically different surface colors under different views, The result is shown below, and we can see that the light reflections on the somewhat metalic surface looks realistic.</p>
-
-  <p> However, using view dependence involves a risk of overfitting to the training images, say, if the training dataset is small and doesn't have sufficient view points, or if the model is designed to heavily rely on the view direction.</p>
-
-  <p> Therefore, we need a large dataset with diverse views, and a model that generalizes well.</p>
-    
-  <section>
-    <div class="row">
-
-        <div class="column2", style="margin-left: 37.5%">
-            <p>  </p>
-            <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_3_view.gif", style="width:100%">
-
-              </div>
-</section>
-       
-
-<h3>B. Neural Surface Rendering</h3>
-<h4>5. Sphere Tracing</h4>
-<p>Iteratively update points, starting from the origins, and adding distance to the closest surface multiplied with the direction of the ray.</p>
-
-<p> A mask with the same batch dimension as the ray origins is maintained to mark whicih rays already have a distance less than the threshold 1e-6. The loop ends when all rays have distance below that threshold or when we have reached the maximum number of iterations.</p>
-
-<section>
-  <div class="row">
-
-      <div class="column2", style="margin-left: 37.5%">
-          <p>  </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/3df3018739d08c9fe519e5cbfd0ba4a1c3de6ffa/proj3/results/part_5.gif", style="width:100%">
-
-            </div>
-</section>
-
-
-
-<h4>6. Optimizing a Neural SDF</h4>
-
-<section>
-  <div class="row">
-
-      <div class="column2", style="margin-left: 25%">
-          <p> part6 input </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_6_input.gif", style="width:100%">
-
-            </div>
-
-      <div class="column2">
-          <p> part 6 result </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_6.gif", style="width:100%">
-        </div>
-
-  
-</section>
-
-<p></p>
-
-<p> Eikonal loss here is: torch.mean(torch.square(torch.norm(gradients, dim = 1, keepdim = True) - 1))
-</p>
-
-<p> MLP structure:</p>
-
-<p>- Using HarmonicEmbedding for the input</p>
-
-<p>- 7 fully connected layers, with a ReLU activation function on each layer except the final one</p>
-
-<p>- The 4th layer has a skip connection</p>
-
-
-<h4>7. VolSDF</h4>
-<p> Alpha: constant density</p>
-<p> Beta: the smoothness index with which alpha increases at the boundary</p>
-<p> ------------------ </p>
-<p>1. How does high beta bias your learned SDF? What about low beta?</p>
-<p>A high beta will let the density decrease slower near the boundaries, creating more blurred rendering results. A low beta will let the SDF decrease abruptly, creating sharper rendering results. High beta allows more accurate prediction of lighting, and makes the rendering look more realistic to an extent. </p>
-<p> ------------------ </p>
-<p>2. Would an SDF be easier to train with volume rendering and low beta or high beta? Why?</p>
-<p> SDF is easier to train using higher beta. This is because the smoother the SDF is, the easier it is to optimize using the gradients. </p>
-<p> ------------------ </p>
-<p>3. Would you be more likely to learn an accurate surface with high beta or low beta? Why?</p>
-<p>Low beta is better for learning an accurate surface. Sharper SDF captures surface details and can better represent objects with sharper shapes or detailed surface shapes. When beta is too high, the rendering becomes too blurry and the accuracy of shape drops. However, high beta allows more accurate prediction of lighting, and makes the surface colors look more realistic to an extent. We should keep the tradeoffs in mind.</p>
-<h4>Hyperparameter tuning</h4>
-<p> Test with different beta, keeping alpha = 10, we find that the best beta is 0.05.</p>
- <p>If beta is too large, the rendering becomes too blurry.</p>
-
- <section>
-  <div class="row">
-
-      <div class="column2", style="margin-left: 25%">
-          <p> alpha = 10, </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_a10b0-1.gif", style="width:100%">
-
-            </div>
-
-      <div class="column2">
-          <p> beta = 0.01 </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_a19b0-1.gif", style="width:100%">
-        </div>
-
-  
-</section>
-
- <section>
-  <div class="row">
-
-      <div class="column2", style="margin-left: 25%">
-          <p> alpha = 10, </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_a10b0-5.gif", style="width:100%">
-
-            </div>
-
-      <div class="column2">
-          <p> beta = 0.05 </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_a10b0-5.gif", style="width:100%">
-        </div>
-
-  
-</section>
-
-<section>
-  <div class="row">
-
-      <div class="column2", style="margin-left: 25%">
-          <p> alpha = 10, </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_a10b1.gif", style="width:100%">
-
-            </div>
-
-      <div class="column2">
-          <p> beta = 0.1 </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_a10b1.gif", style="width:100%">
-        </div>
-
-  
-</section>
-
-<p> Test with different alpha, keeping beta = 0.05, we find that the best alpha is 25.</p>
-<p> If the alpha is too small, the density is more spread-out, and we might fail to capture details </p>
-
-<section>
-
-  <div class="row">
-  
-    <div class="column2", style="margin-left: 25%">
-        <p> alpha = 1</p>
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_a1.gif", style="width:100%">
-  
           </div>
-  
-    <div class="column2">
-        <p> beta = 0.05 </p>
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_a1.gif", style="width:100%">
+
+          <div class="column">
+              <p> Random noise 1 (seed 24) </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/randnoise24.png", style="width:100%">
+          </div>
+
       </div>
-  
-  
-  </section>
 
-<section>
+      <div class="row">
 
-<div class="row">
-
-  <div class="column2", style="margin-left: 25%">
-      <p> alpha = 25,</p>
-      <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_a25.gif", style="width:100%">
+        <div class="column", style="margin-left: 10%">
+            <p> Difference </p>
+            <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diff24.png", style="width:100%">
 
         </div>
 
-  <div class="column2">
-      <p> beta = 0.05 </p>
-      <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_a25.gif", style="width:100%">
+        <div class="column">
+            <p> Difference over the original image </p>
+            <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diffOverOriginal24.png", style="width:100%">
+        </div>
+
     </div>
 
 
-</section>
+  </section>
 
-<section>
-<div class="row">
 
-  <div class="column2", style="margin-left: 25%">
-      <p> alpha = 50,</p>
-      <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_a50.gif", style="width:100%">
+  <h4> Random noise 2</h4>
+    <section>
+      <div class="row">
+
+          <div class="column", style="margin-left: 10%">
+              <p> Original </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/style.png", style="width:100%">
+
+          </div>
+
+          <div class="column">
+              <p> Random noise 2 (seed 36) </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/randnoise36.png", style="width:100%">
+          </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="column", style="margin-left: 10%">
+            <p> Difference </p>
+            <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diff36.png", style="width:100%">
 
         </div>
 
-  <div class="column2">
-      <p> beta = 0.05 </p>
-      <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_a50.gif", style="width:100%">
+        <div class="column">
+            <p> Difference over the original image </p>
+            <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/diffOverOriginal36.png", style="width:100%">
+        </div>
+
     </div>
 
 
-</section>
-
-
-<h4>8. Neural Surface Extras</h4>
-<h4>8.1. Render a Large Scene with Sphere Tracing</h4>
-<p> Rendering more spheres</p>
-<section>
-  <div class="row">
-
-      <div class="column2", style="margin-left: 37.5%">
-          <p>  </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/spheres.gif", style="width:100%">
-
-            </div>
-</section>
-
-
-<h4>8.2 Fewer Training Views</h4>
-<p> Here I modified train_idx in dataset.py to decrease the number of views.</p>
-<p> From the results we see that NERF generally has more detailed and accurate rendering results. However, when the number of views is extremely limited, VolSDF performs better than NERF.</p>
-<p> 20 views</p>
-<section>
-  <div class="row">
-    <div class="column2", style="margin-left: 11%">
-      <p> geometry</p>
-      <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_view20.gif", style="width:100%">
-
-        </div>
-  
-    <div class="column2">
-        <p> NERF </p>
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_3_nerf20.gif", style="width:100%">
-  
-          </div>
-  
-    <div class="column2">
-        <p> VolSDF </p>
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_view20.gif", style="width:100%">
-      </div>
-      </div>
-  </secion>
-
-      <p></p>
-      <p> 10 views</p>
-      <section>
-        <div class="row">
-          <div class="column2", style="margin-left: 11%">
-            <p> geometry</p>
-            <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_view10.gif", style="width:100%">
-      
-              </div>
-          <div class="column2">
-              <p>NERF </p>
-              <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_3_nerf10.gif", style="width:100%">
-        
-                </div>
-        
-          <div class="column2">
-              <p> VolSDF </p>
-              <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_view10.gif", style="width:100%">
-            </div>
-
-            
-          </section>
-
-
-             <p> 5 views</p>
-          <secion>
-              <div class="row">
-                <div class="column2", style="margin-left: 11%">
-                  <p> geometry</p>
-                  <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_view5.gif", style="width:100%">
-            
-                    </div>
-              
-                <div class="column2", style="margin-left:">
-                    <p> NERF</p>
-                    <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_3_nerf5.gif", style="width:100%">
-              
-                      </div>
-              
-                <div class="column2">
-                    <p> VolSDF </p>
-                    <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_view5.gif", style="width:100%">
-                  </div>
-  
-  
   </section>
 
+  <h3> Part 3: Style Transfer </h3>
+  <h4>Implementation details</h4>
 
+  <p> Optimize content on layer 3, optimize style on layers 1-10. </p>
+  <p> I normalize the values of the gram matrix by dividing by the number of element in each feature maps.</p>
+  <p> Content weight: 1</p>
+  <p> Style weight: 10000</p>
+  <p> Optimization steps: 600</p>
 
-<h4>8.3 Alternate SDF to Density Conversions</h4>
-  <p> The ‘naive’ solution from the NeuS paper is implemented here. The probability distribution function S density introduced in the paper has the formula:</p>
-  
+  <h4> Mix content with style</h4>
   <section>
     <div class="row">
-  
-        <div class="column2", style="margin-left: 37.5%">
-            <p>  </p>
-            <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/s-dens.png", style="width:100%">
-  
-              </div>
-  </section>
-<p> Varying s value, I got the following results: </p>
 
-<section>
-  <p> s = 40</p>
+        <div class="column4", style="margin-left: 0%">
+            <p> Content / Style </p>
+           
+        </div>
+
+        <div class="column4">
+            <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/s1.png", style="width:100%">
+        </div>
+
+        <div class="column4">
+          <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/s2.png", style="width:100%">
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="column4", style="margin-left: 0%">
+          <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c1.png", style="width:100%">
+
+      </div>
+
+      <div class="column4">
+          <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c1s1-noise.png", style="width:100%">
+      </div>
+
+      <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c1s2-noise.png", style="width:100%">
+    </div>
+
+
+  </div>
+
   <div class="row">
 
-  
-    <div class="column2", style="margin-left: 25%">
-        <p> </p>
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_s40.gif", style="width:100%">
-  
-          </div>
-  
-    <div class="column2">
-        <p> </p>
-        <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_s40.gif", style="width:100%">
+    <div class="column4", style="margin-left: 0%">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c2.png", style="width:100%">
+
+    </div>
+
+    <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c2s1-noise.png", style="width:100%">
+    </div>
+
+    <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c2s2-noise.png", style="width:100%">
+  </div>
+
+
+</div>
+
+<div class="row">
+
+  <div class="column4", style="margin-left: 0%">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c3.png", style="width:100%">
+  </div>
+
+  <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c3s1-noise.png", style="width:100%">
+  </div>
+
+  <div class="column4">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c3s2-noise.png", style="width:100%">
+</div>
+
+
+</div>
+
+</section>
+
+<h4>Take input as random noise and a content image</h4>
+
+<p> The below results show input as content images. Comoparing with the above where input images are random noises, the below results preserved much more content features, and the style and content blend better.</p>
+<p> The objects in the below images also have clearer boundaries. More details and textures from the content images are preserved. For example, the texture of the dog's fur (and its highlighs), The shiny texture of the botanical garden, etc.</p>
+
+<p> The botanical garden synthesized with the frida kahlo style image looks especially pretty as if it was an oil painting. </p>
+<p> As for runtime, on my 4060 GPU, synthesizing from random noise and from a content image both take less than 1 minute to run and don't differ much. </p>
+<section>
+  <div class="row">
+
+      <div class="column4", style="margin-left: 0%">
+          <p> Content / Style </p>
+         
       </div>
-  
-  
-  </section>
 
-  <section>
-    <p> s = 20</p>
-    <div class="row">
-  
-    
-      <div class="column2", style="margin-left: 25%">
-          <p> </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_geometry_s20.gif", style="width:100%">
-    
-            </div>
-    
-      <div class="column2">
-          <p> </p>
-          <img src = "https://raw.githubusercontent.com/SilvesterYu/LearningFor3DVision-CMU16825/main/proj3/results/part_7_s20.gif", style="width:100%">
-        </div>
-    
-    
-    </section>
+      <div class="column4">
+          <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/s1.png", style="width:100%">
+      </div>
 
+      <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/s2.png", style="width:100%">
+    </div>
 
-  
+  </div>
 
+  <div class="row">
 
- <p>Larger s made the rendering sharper, but also less smooth. It generally performs worse than Q7's VolSDF. </p>
+    <div class="column4", style="margin-left: 0%">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c1.png", style="width:100%">
+
+    </div>
+
+    <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c1s1-content.png", style="width:100%">
+    </div>
+
+    <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c1s2-content.png", style="width:100%">
+  </div>
 
 
+</div>
 
-        <link rel="stylesheet" href="css/style.css">
-    </body>
+<div class="row">
+
+  <div class="column4", style="margin-left: 0%">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c2.png", style="width:100%">
+
+  </div>
+
+  <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c2s1-content.png", style="width:100%">
+  </div>
+
+  <div class="column4">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c2s2-content.png", style="width:100%">
+</div>
+
+
+</div>
+
+<div class="row">
+
+<div class="column4", style="margin-left: 0%">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c3.png", style="width:100%">
+</div>
+
+<div class="column4">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c3s1-content.png", style="width:100%">
+</div>
+
+<div class="column4">
+  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/c3s2-content.png", style="width:100%">
+</div>
+
+
+</div>
+
+</section>
+
+<h4> Style transfer on some of my favorite images </h4>
+
+<p> I used my own artworks as style images, <a href="https://www.artstation.com/lifanyu">source: https://www.artstation.com/lifanyu</a>. Content image1 credits: Haoyue Liu. Content image2: A temple in Guangzhou, China. Content image3: Duquesne Incline. Content images without too complicated features, or have similar textures with the style images, produce better style transfer results, especially the flowers with style1 and duquesne incline photo with style2.  </p>
+
+
+<section>
+  <div class="row">
+
+      <div class="column4", style="margin-left: 0%">
+          <p> Content / Style </p>
+         
+      </div>
+
+      <div class="column4">
+          <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/mys1.png", style="width:100%">
+      </div>
+
+      <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/mys2.png", style="width:100%">
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="column4", style="margin-left: 0%">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc1.png", style="width:100%">
+
+    </div>
+
+    <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc1s1-content.png", style="width:100%">
+    </div>
+
+    <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc1s2-content.png", style="width:100%">
+  </div>
+
+
+</div>
+
+<div class="row">
+
+  <div class="column4", style="margin-left: 0%">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc2-new.png", style="width:100%">
+
+  </div>
+
+  <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc2s1.png", style="width:100%">
+  </div>
+
+  <div class="column4">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc2s2.png", style="width:100%">
+</div>
+
+<div class="row">
+
+  <div class="column4", style="margin-left: 0%">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc3.png", style="width:100%">
+
+  </div>
+
+  <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc3s1.png", style="width:100%">
+  </div>
+
+  <div class="column4">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc3s2.png", style="width:100%">
+</div>
+
+
+</div>
+
+
+</section>
+
+<h3>Bells & Whistles (Extra Points)</h3>
+
+<h4>Stylize your grump cats or Poisson blended images from the previous homework</h4>
+
+<section>
+  <div class="row">
+
+      <div class="column4", style="margin-left: 0%">
+          <p> Content / Style </p>
+         
+      </div>
+
+      <div class="column4">
+          <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/extras1.png", style="width:100%">
+      </div>
+
+      <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/extras2.png", style="width:100%">
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="column4", style="margin-left: 0%">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/cat1.png", style="width:100%">
+
+    </div>
+
+    <div class="column4">
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/cat1s1.png", style="width:100%">
+    </div>
+
+    <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/cat1s2.png", style="width:100%">
+  </div>
+
+
+</div>
+
+<div class="row">
+
+  <div class="column4", style="margin-left: 0%">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/cat2.png", style="width:100%">
+
+  </div>
+
+  <div class="column4">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/cat2s1.png", style="width:100%">
+  </div>
+
+  <div class="column4">
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/cat2s2.png", style="width:100%">
+</div>
+
+<div class="row">
+
+  <div class="column4", style="margin-left: 0%">
+      <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj4/results/myc3.png", style="width:100%">
+
+  </div>
+
+
+</section>
+
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

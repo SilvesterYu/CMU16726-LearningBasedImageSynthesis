@@ -40,6 +40,15 @@ section {
   align-self: center;
 }
 
+.column4 {
+  float: left;
+  width: 33%;
+  padding: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+
 /* Clear floats after image containers */
 .row::after {
   content: "";

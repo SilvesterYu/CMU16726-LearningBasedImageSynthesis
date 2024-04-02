@@ -1,0 +1,369 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>CMU 16826 Learning for 3D Vision</title>
+        <link rel="stylesheet" href="css/style.css">
+        <!-- <link rel="stylesheet" href="https://latex.now.sh/style.css"> -->
+    </head>
+    
+    <body class="#grad">
+        <h1>CMU 16826 Learning Based Image Synthesis</h1>
+        <h2> Assignment #3 - Cats Generator Playground</h2>
+        <h4>Lifan Yu (lifany)</h4>
+
+
+        <h3>Part 1: Deep Convolutional GAN</h3>
+        <h4>0. Background</h4>
+
+        <p>Deep Convolutional GAN (DCGAN). A DCGAN is simply a GAN that uses a convolutional neural network as the discriminator, and a network composed of transposed convolutions as the generator. </p>
+        <p>In the assignment, instead of using transposed convolutions, we will be using a combination of a upsampling layer and a convoluation layer to replace transposed convolutions. </p>
+        
+        <h4>1.2 Implement the Discriminator of the DCGAN</h4>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/discriminator.png", style="width:50%; margin-left:25%">
+
+        <p>Padding: In each of the convolutional layers shown above, we downsample the spatial dimension of the input volume by a factor of 2. Given that we use kernel size K = 4 and stride S = 2, what should the padding be? Write your answer on your website, and show your work (e.g., the formula you used to derive the padding).</p>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/formula.png", style="width:50%; margin-left:25%">
+        <p> Solving with W out = 32, W = 64, we get padding = 1</p>
+  
+        <h4>1.3 Implement the Generator of the DCGAN</h4>
+        <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/generator.png", style="width:50%; margin-left:25%">
+        <p> Instead of an up sampling layer, my first layer is a conv layer with kernel size 4, step1, padding 3, which also upsamples the 1x1 input into a 4x4 output. </p>
+
+        <h4>1.4 Experiment with DCGANs [50 points]</h4>
+        <h4> Training losses </h4>
+        <p> The results below demonstrate that:</p>
+        <p> 1. Deluxe data preprocessing significantly decreased generator and descriminator loss. </p>
+        <p> 2. Incorporating differentiable augmentation to reduce overfitting also demonstrated a visible decrease in descriminator losses in both basic and deluxe experiments.</p>
+        <p> 3. The loss of discriminator and generator fluctuates around 1 in the basic case, and the discriminator has slightly lower loss in the deluxe case.  </p>
+        <p> If the GAN manages to train, the losses of the generator and discriminator should both fluctuate and neither of them should win significantly over the other. </p>
+        <section>
+          
+          <div class="row">
+
+              <div class="column">
+                  <p> Basic Generator loss </p>
+              </div>
+              <div class="column">
+                <p> Basic Discriminator loss </p>
+            </div>
+           </div>   
+           
+           <div class="row">
+            <div class="column">
+                   <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/basicG.png", style="width:100%; height: 20vw">
+
+                    </div>
+
+              <div class="column">
+            
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/basicD.png", style="width:100%; height: 20vw">
+                </div>
+           </div>  
+
+           <div class="row">
+
+            <div class="column">
+                <p> Basic + diffaug Generator loss </p>
+            </div>
+            <div class="column">
+              <p> Basic + diffaug Discriminator loss </p>
+          </div>
+         </div>  
+           <div class="row">
+            <div class="column">
+                   <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/basicdiffG.png", style="width:100%; height: 20vw">
+
+                    </div>
+
+              <div class="column">
+            
+                  <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/basicdiffD.png", style="width:100%; height: 20vw">
+                </div>
+           </div>  
+
+
+           <div class="row">
+
+            <div class="column">
+                <p> Deluxe Generator loss </p>
+            </div>
+            <div class="column">
+              <p> Deluxe Discriminator loss </p>
+          </div>
+         </div>   
+         
+         <div class="row">
+          <div class="column">
+                 <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/deluxeG.png", style="width:100%; height: 20vw">
+
+                  </div>
+
+            <div class="column">
+          
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/deluxeD.png", style="width:100%; height: 20vw">
+              </div>
+         </div>  
+
+         <div class="row">
+
+          <div class="column">
+              <p> Deluxe + diffaug Generator loss </p>
+          </div>
+          <div class="column">
+            <p> Deluxe + diffaug Discriminator loss </p>
+        </div>
+       </div>  
+         <div class="row">
+          <div class="column">
+                 <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/deluxediffG.png", style="width:100%; height: 20vw">
+
+                  </div>
+
+            <div class="column">
+          
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/deluxediffD.png", style="width:100%; height: 20vw">
+              </div>
+         </div>  
+
+          
+      </section>
+
+      <h4> Samples</h4>
+
+      <section>
+
+        <p> Towards the beginning of training, at 200 epochs, the samples are blurry, with rectangular color regions that look unatural. At the end of the traning process, at 6400 epochs, the images are more realistic with smoother edges between different colors.</p>
+
+          
+        <div class="row">
+
+            <div class="column", style="width: 35s%">
+                <p> Deluxe + diffaug iter 200 </p>
+            </div>
+            <div class="column", style="width: 35%">
+              <p> Deluxe + diffaug iter 6400 </p>
+          </div>
+         </div>   
+         
+         
+
+
+         <div class="row">
+
+          <div class="column2", style="width: 35%">
+                 <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/vanilla/grumpifyBprocessed_deluxe_diffaug/sample-000200.png", style="width:100%">
+                  </div>
+            <div class="column2", style="width: 35%">  
+                <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/vanilla/grumpifyBprocessed_deluxe_diffaug/sample-006400.png", style="width:100%">
+              </div>
+         </div>   
+
+        
+    </section>
+
+    <h3> Part 2. Cycle GAN</h3>
+    <h4> CycleGAN Experiments [50 points] </h4>
+    <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/images/cyclegan_generator.png", style="width:50%; margin-left:25%">
+    <section>
+      <h4> 2.1 CycleGAN 1000 iters</h4>
+      <p> Without cycle-consistency loss</p>
+      <p> python cycle_gan.py --disc patch --train_iters 1000 </p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 1000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive/sample-001000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 1000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive/sample-001000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+
+    <section>
+      
+      <p> Wth cycle-consistency loss</p>
+      <p> python cycle_gan.py --disc patch --use_cycle_consistency_loss  --train_iters 1000 </p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 1000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive_cycle/sample-001000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 1000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive_cycle/sample-001000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+
+    <section>
+      <h4> 2.2 CycleGAN 10000 iters</h4>
+      <p> Without cycle-consistency loss 10000 iters</p>
+      <p> python cycle_gan.py --disc patch --train_iters 10000 </p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 10000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive_10000/sample-010000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 10000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive_10000/sample-010000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+
+    <section>
+      <p> With cycle-consistency loss 10000 iters</p>
+      <p> python cycle_gan.py --disc patch --use_cycle_consistency_loss  --train_iters 10000 </p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 10000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive_cycle_10000/sample-010000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 10000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_patch_cycle_naive_cycle_10000/sample-010000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+
+    
+
+    <section>
+      <h4> 2.3 CycleGAN on the orange dataset</h4>
+      <p> Without cycle-consistency loss 1000 iters</p>
+
+      <p> python cycle_gan.py --disc patch --train_iters 1000 --X apple2orange/apple --Y apple2orange/orange</p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 1000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_10000/sample-001000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 1000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_10000/sample-001000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+
+       <p> With cycle-consistency loss 1000 iters</p>
+       <p> python cycle_gan.py --disc patch --use_cycle_consistency_loss  --train_iters 1000 --X apple2orange/apple --Y apple2orange/orange</p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 1000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_cycle_10000/sample-001000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 1000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_cycle_10000/sample-001000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+
+       <p> Without cycle-consistency loss 10000 iters</p>
+      <p> python cycle_gan.py --disc patch --train_iters 10000 --X apple2orange/apple --Y apple2orange/orange</p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 10000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_10000/sample-010000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 10000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_10000/sample-010000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+
+       <p> With cycle-consistency loss 10000 iters</p>
+      <p> python cycle_gan.py --disc patch --use_cycle_consistency_loss  --train_iters 10000 --X apple2orange/apple --Y apple2orange/orange</p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 10000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_cycle_10000/sample-010000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 10000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/apple2orange_10deluxe_instance_patch_cycle_naive_cycle_10000/sample-010000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+
+    <h4> 2.4 Difference between the results & why</h4>
+    <p> 1. With cycle-consistency loss, the original details are better recovered. This is because we set the loss to also minimize the MSE between original images and the imags transformed from the original and then back. The generative model is not totally focused on tricking the discriminator but also on recovering the original image features. For example, without cycle-consistency loss, small details such as the cat's eyes might not be there in the reconstructed image.</p>
+    <p> 2. However, without cycle-consistency loss, the generated image can look more realistic to human eyes. This is because the model doesn't have to merge features from images of two objects that don't look alike and lose fome naturalness in the image originally generated. For example, in the case of the apple on the top-left corner. </p>
+
+    <h4> 2.5 CycleGAN with the DCDiscriminator</h4>
+    <p> CycleGAN + DCDiscriminator with cycle-consistency loss 10000 iters</p>
+      <p> python3 cycle_gan.py --disc dc --use_cycle_consistency_loss --train_iters 10000</p>
+      <div class="row">
+
+        <div class="column2", style="width: 48%">
+          <p> iter 10000, X-Y </p>
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_dc_cycle_naive_cycle_10000/sample-010000-X-Y.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 48%">  
+            <p> iter 10000, Y-X </p>
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/output1/cyclegan/cat_10deluxe_instance_dc_cycle_naive_cycle_10000/sample-010000-Y-X.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+    <p> With DCDiscriminator, we lose some details that are present in the case of patch discriiminator, as DCDiscriminator focuses more globally than locally on finer details. For example, the cats' eyes are especially blurry, have sharp, unatural boundaries, and distorted.</p>
+
+
+    <h3> 3. Bells & Whistles </h3>
+    <h4> Implement and train a diffusion model on our datasets  (10 pts)</h4>
+    
+    <section>
+      <p> python train_ddpm.py</p>
+      <p> python test_ddpm.py</p>
+      <p> Some samples: </p>
+      <div class="row">
+
+        <div class="column2", style="width: 30%">
+
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/diffusion_outputs/diffusion_output_2.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 30%">  
+   
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/diffusion_outputs/diffusion_output_3.png", style="width:100%">
+            </div>
+            <div class="column2", style="width: 30%">  
+   
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/diffusion_outputs/diffusion_output_5.png", style="width:100%">
+            </div>
+       </div> 
+
+       <div class="row">
+
+        <div class="column2", style="width: 30%">
+
+               <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/diffusion_outputs/diffusion_output_4.png", style="width:100%">
+                </div>
+          <div class="column2", style="width: 30%">  
+   
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/diffusion_outputs/diffusion_output_6.png", style="width:100%">
+            </div>
+            <div class="column2", style="width: 30%">  
+   
+              <img src = "https://raw.githubusercontent.com/SilvesterYu/CMU16726-LearningBasedImageSynthesis/main/lifany_code_proj3/diffusion_outputs/diffusion_output_8.png", style="width:100%">
+            </div>
+       </div> 
+    </section>
+
+
+
+
+
+
+
+      
+
+        <link rel="stylesheet" href="css/style.css">
+    </body>
+</html>

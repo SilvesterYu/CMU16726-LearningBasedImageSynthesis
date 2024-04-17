@@ -1,4 +1,4 @@
-name: 16726_hw5
+name: image_hw5
 channels:
   - nvidia
   - conda-forge

@@ -96,6 +96,24 @@ class PerceptualLoss(nn.Module):
         #                hint: hw4
         # You may split the model into different parts and store each part in 'self.model'
         self.model = nn.ModuleList()
+        self.add_layer = add_layer
+        self.model.append(norm)
+        
+        i = 1
+        for l in cnn.children():
+            print(type(l))
+            if type(l) == nn.Conv2d:
+                lname = "conv_" + str(i)
+                i += 1
+
+            elif type(l) == nn.ReLU:
+                lname = "ReLU_" + str(i)
+
+            self.model.append(l)
+
+            if lname == add_layer[-1]:
+                break
+
 
     def forward(self, pred, target):
 

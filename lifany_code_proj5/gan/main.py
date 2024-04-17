@@ -116,11 +116,14 @@ class PerceptualLoss(nn.Module):
 
 
     def forward(self, pred, target):
-
+        # --
+        mask = None
+        # --
         if isinstance(target, tuple):
             target, mask = target
         
         loss = 0.
+        i = 1
         for net in self.model:
             pred = net(pred)
             target = net(target)
@@ -131,7 +134,16 @@ class PerceptualLoss(nn.Module):
             # TODO (Part 3): if mask is not None, then you should mask out the gradient
             #                based on 'mask==0'. You may use F.adaptive_avg_pool2d() to 
             #                resize the mask such that it has the same shape as the feature map.
-            pass
+            if type(net) == nn.Conv2d:
+                lname = "conv_" + str(i)
+                i += 1
+                if lname in self.add_layer:
+                    if mask is not None:
+                        mask = F.adaptive_avg_pool2d(mask, pred.shape[-2:])
+                        loss += F.mse_loss(pred * mask, (target * mask).detach())
+                    else:
+                        loss += F.mse_loss(pred, target.detach())
+
         return loss
 
 class Criterion(nn.Module):

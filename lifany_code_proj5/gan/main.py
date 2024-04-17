@@ -140,7 +140,7 @@ class PerceptualLoss(nn.Module):
                 if lname in self.add_layer:
                     if mask is not None:
                         mask = F.adaptive_avg_pool2d(mask, pred.shape[-2:])
-                        loss += F.mse_loss(pred * mask, (target * mask).detach())
+                        loss += F.mse_loss(torch.mul(pred, mask), torch.mul(target, mask).detach())
                     else:
                         loss += F.mse_loss(pred, target.detach())
 
@@ -160,14 +160,18 @@ class Criterion(nn.Module):
         if self.mask:
             target, mask = target
             # TODO (Part 3): loss with mask
-            loss_l1 = torch.linalg.matrix_norm(pred * mask - (target * mask).detach())
+            # loss_l1 = torch.linalg.matrix_norm(torch.mul(pred, mask) - torch.mul(target * mask).detach(), ord=1)
+            loss_l1 = torch.linalg.matrix_norm(torch.mul(target, mask).detach() - torch.mul(pred, mask), ord = 1)
         else:
             # TODO (Part 1): loss w/o mask
-            loss_l1 = torch.linalg.matrix_norm(pred, target.detach())
+            pass
+            # loss_l1 = torch.linalg.matrix_norm(pred - target.detach(), ord = 1)
+            loss_l1 = torch.linalg.matrix_norm(target.detach() - pred, ord = 1)
+        loss_l1 = torch.mean(loss_l1)
         perc_loss = self.perc(pred, target)
         loss = self.l1_wgt * loss_l1 + self.perc_wgt * perc_loss
+        # print("loss", loss)
         return loss
-
 
 def save_images(image, fname, col=8):
     image = image.cpu().detach()
@@ -214,14 +218,17 @@ def sample_noise(dim, device, latent, model, N=1, from_mean=False):
         vector = torch.randn(N, dim, device=device) if not from_mean else torch.zeros(N, dim, device=device)
     elif latent == 'w':
         if from_mean:
-            vector = #TODO
+            # from generate_gif.py
+            vector = model.mapping(torch.randn(10000, dim, device = device), None)
+            vector = torch.mean(vector, dim=0, keepdim=True)[:, 0, :]
         else:
-            vector = #TODO
+            vector = model.mapping(torch.randn(N, dim, device = device), None)[:, 0, :]
     elif latent == 'w+':
         if from_mean:
-            vector = #TODO
+            vector = model.mapping(torch.randn(10000, dim, device = device), None)
+            vector = torch.mean(vector, dim=0, keepdim=True)
         else:
-            vector = #TODO
+            vector = model.mapping(torch.randn(N, dim, device = device), None)
     else:
         raise NotImplementedError('%s is not supported' % latent)
     return vector
@@ -241,6 +248,10 @@ def optimize_para(wrapper, param, target, criterion, num_step, save_prefix=None,
     def closure():
         iter_count[0] += 1
         # TODO (Part 1): Your optimiztion code. Free free to try out SGD/Adam.
+        optimizer.zero_grad()
+        image = wrapper(param + delta)
+        loss = criterion(image, target)
+
         if iter_count[0] % 250 == 0:
             # visualization code
             print('iter count {} loss {:4f}'.format(iter_count, loss.item()))
@@ -267,7 +278,7 @@ def sample(args):
     else:
         device = 'cpu'
 
-    noise = sample_noise(z_dim, device, args.latent, model, batch_size)
+    noise = sample_noise(z_dim, device, args.latent, model, batch_size, from_mean=args.from_mean)
     image = wrapper(noise)
     fname = os.path.join('output/forward/%s_%s' % (args.model, args.mode))
     os.makedirs(os.path.dirname(fname), exist_ok=True)
@@ -285,12 +296,16 @@ def project(args):
     criterion = Criterion(args)
     # project each image
     for idx, (data, _) in enumerate(loader):
+        print("save", idx)
         target = data.to(device)
         save_images(data, 'output/project/%d_data' % idx, 1)
-        param = sample_noise(z_dim, device, args.latent, model)
+        param = sample_noise(z_dim, device, args.latent, model, from_mean=args.from_mean)
+        # --
+        from_mean = "mean" if args.from_mean else ""
+        # --
         optimize_para(wrapper, param, target, criterion, args.n_iters,
-                      'output/project/%d_%s_%s_%g' % (idx, args.model, args.latent, args.perc_wgt))
-        if idx >= 0:
+                      'output/project/%d_%s_%s_%g_%s' % (idx, args.model, args.latent, args.perc_wgt, from_mean))
+        if idx >= 10:
             break
 
 
@@ -308,7 +323,14 @@ def draw(args):
         save_images(mask, 'output/draw/%d_mask' % idx, 1)
         # TODO (Part 3): optimize sketch 2 image
         #                hint: Set from_mean=True when sampling noise vector
-
+        # --
+        from_mean = "mean" if args.from_mean else ""
+        # --
+        param = sample_noise(z_dim, device, args.latent, model, from_mean=True)
+        optimize_para(wrapper, param, (rgb, mask), criterion, args.n_iters,
+                      'output/draw/%d_%s_%s_%g_%s' % (idx, args.model, args.latent, args.perc_wgt, from_mean))
+        if idx >= 18:
+            break
 
 def interpolate(args):
     model, z_dim = build_model(args.model)
@@ -332,7 +354,8 @@ def interpolate(args):
         with torch.no_grad():
             # TODO (B&W): interpolation code
             #                hint: Write a for loop to append the convex combinations to image_list
-            pass
+            for a in alpha_list:
+                image_list.append(wrapper(a * src + (1 - a) * dst)) 
         save_gifs(image_list, 'output/interpolate/%d_%s_%s' % (idx, args.model, args.latent))
         if idx >= 3:
             break
@@ -343,6 +366,10 @@ def parse_arg():
     """Creates a parser for command-line arguments.
     """
     parser = argparse.ArgumentParser()
+
+    # --
+    parser.add_argument('--from_mean', type=bool, default=True)
+    # --
     
     parser.add_argument('--model', type=str, default='stylegan', choices=['vanilla', 'stylegan'])
     parser.add_argument('--mode', type=str, default='sample', choices=['sample', 'project', 'draw', 'interpolate'])
@@ -369,3 +396,4 @@ if __name__ == '__main__':
         draw(args)
     elif args.mode == 'interpolate':
         interpolate(args)
+

@@ -160,10 +160,12 @@ class Criterion(nn.Module):
         if self.mask:
             target, mask = target
             # TODO (Part 3): loss with mask
-            pass
+            loss_l1 = torch.linalg.matrix_norm(pred * mask - (target * mask).detach())
         else:
             # TODO (Part 1): loss w/o mask
-            pass
+            loss_l1 = torch.linalg.matrix_norm(pred, target.detach())
+        perc_loss = self.perc(pred, target)
+        loss = self.l1_wgt * loss_l1 + self.perc_wgt * perc_loss
         return loss
 
 
